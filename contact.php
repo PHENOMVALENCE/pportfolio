@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Email configuration
-    $to = "mkwawa666@gmail.com";
+    $to = "mwiganivalence@gmail.com";
     $subject = "New Contact Form Submission";
     $headers = "From: noreply@yourwebsite.com\r\n";
     $headers .= "Reply-To: $email\r\n";
