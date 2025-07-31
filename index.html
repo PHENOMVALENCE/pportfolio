@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 89281a9ad6de427c5237397852cf73490dbcf798
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -431,8 +435,13 @@
                     </div>
                 </div>
                 <div class="contact-form-section">
+<<<<<<< HEAD
                     <form class="contact-form" id="contact-form">
                         <input type="hidden" name="csrf_token" value="static-token-for-demo">
+=======
+                    <form class="contact-form" method="POST" action="contact.php">
+                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+>>>>>>> 89281a9ad6de427c5237397852cf73490dbcf798
                         <div class="form-group">
                             <input type="text" id="name" name="name" required>
                             <label for="name">Your Name</label>
