@@ -1,66 +1,3 @@
-<?php
-session_start();
-
-// Generate CSRF token if not exists
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-
-// Function to sanitize input
-function sanitize_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verify CSRF token
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("CSRF token validation failed");
-    }
-
-    // Get and sanitize form data
-    $name = sanitize_input($_POST['name']);
-    $email = sanitize_input($_POST['email']);
-    $company = sanitize_input($_POST['company'] ?? '');
-    $message = sanitize_input($_POST['message']);
-
-    // Validate required fields
-    if (empty($name) || empty($email) || empty($message)) {
-        die("Please fill all required fields");
-    }
-
-    // Validate email format
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Invalid email format");
-    }
-
-    // Email configuration
-    $to = "mkwawa666@gmail.com";
-    $subject = "New Contact Form Submission";
-    $headers = "From: noreply@yourwebsite.com\r\n";
-    $headers .= "Reply-To: $email\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-    // Email body
-    $email_body = "<h2>New Contact Form Submission</h2>";
-    $email_body .= "<p><strong>Name:</strong> $name</p>";
-    $email_body .= "<p><strong>Email:</strong> $email</p>";
-    if (!empty($company)) {
-        $email_body .= "<p><strong>Organization:</strong> $company</p>";
-    }
-    $email_body .= "<p><strong>Message:</strong><br>$message</p>";
-
-    // Send email
-    if (mail($to, $subject, $email_body, $headers)) {
-        echo "<script>alert('Message sent successfully!');</script>";
-    } else {
-        echo "<script>alert('Failed to send message. Please try again later.');</script>";
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,12 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a href="#portfolio" class="btn btn-secondary">View My Projects</a>
                 </div>
             </div>
-           <!-- <div class="hero-visual">
+            <div class="hero-visual">
                 <div class="hero-circle">
                     <img src="me.jpg" alt="Peter Mkwawa - Pan-African Strategy Consultant" class="hero-person-image">
                 </div> 
-            </div> -->
-            <img src="me.jpg">
+            </div>
         </div>
     </section>
 
@@ -121,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <section id="about" class="about">
         <div class="container">
             <div class="section-header">
-                <h2>Vision-Driven./Foundation>
+                <h2>Vision-Driven./Foundation</h2>
                 <div class="section-divider"></div>
             </div>
             <div class="about-content">
@@ -364,7 +300,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="portfolio-content">
                         <h4>Wealth Management Portfolio Growth</h4>
                         <p><strong>Contribution:</strong> Growing and diversifying portfolio of high-net-worth individuals and institutional clients</p>
-                        <p><strong>Outcome:</strong> Positioned ASK Private Wealth as trusted partner in investment planning and legacy management</p>
+                        <p><strong>Outcome ParityOutcome:</strong> Positioned ASK Private Wealth as trusted partner in investment planning and legacy management</p>
                     </div>
                 </div>
                 <div class="portfolio-card">
@@ -495,8 +431,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
                 <div class="contact-form-section">
-                    <form class="contact-form" method="POST" action="index.php#contact">
-                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                    <form class="contact-form" id="contact-form">
+                        <input type="hidden" name="csrf_token" value="static-token-for-demo">
                         <div class="form-group">
                             <input type="text" id="name" name="name" required>
                             <label for="name">Your Name</label>
@@ -561,5 +497,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    form.reset();
+                } else {
+                    alert(result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,19 @@
+{
+  "name": "ppm_2",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PHENOMVALENCE/pportfolio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PHENOMVALENCE/pportfolio/issues"
+  },
+  "homepage": "https://github.com/PHENOMVALENCE/pportfolio#readme",
+  "description": ""
+}
