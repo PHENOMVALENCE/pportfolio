@@ -1,0 +1,565 @@
+<?php
+session_start();
+
+// Generate CSRF token if not exists
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Function to sanitize input
+function sanitize_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+// Handle form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verify CSRF token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("CSRF token validation failed");
+    }
+
+    // Get and sanitize form data
+    $name = sanitize_input($_POST['name']);
+    $email = sanitize_input($_POST['email']);
+    $company = sanitize_input($_POST['company'] ?? '');
+    $message = sanitize_input($_POST['message']);
+
+    // Validate required fields
+    if (empty($name) || empty($email) || empty($message)) {
+        die("Please fill all required fields");
+    }
+
+    // Validate email format
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        die("Invalid email format");
+    }
+
+    // Email configuration
+    $to = "mkwawa666@gmail.com";
+    $subject = "New Contact Form Submission";
+    $headers = "From: noreply@yourwebsite.com\r\n";
+    $headers .= "Reply-To: $email\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+    // Email body
+    $email_body = "<h2>New Contact Form Submission</h2>";
+    $email_body .= "<p><strong>Name:</strong> $name</p>";
+    $email_body .= "<p><strong>Email:</strong> $email</p>";
+    if (!empty($company)) {
+        $email_body .= "<p><strong>Organization:</strong> $company</p>";
+    }
+    $email_body .= "<p><strong>Message:</strong><br>$message</p>";
+
+    // Send email
+    if (mail($to, $subject, $email_body, $headers)) {
+        echo "<script>alert('Message sent successfully!');</script>";
+    } else {
+        echo "<script>alert('Failed to send message. Please try again later.');</script>";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peter Mkwawa - Pan-African Strategy Consultant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h3>Peter Mkwawa</h3>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Strategy. Partnerships. Impact.</h1>
+                <p class="hero-subtitle">Empowering African enterprises and global organizations with tailored solutions to scale, thrive, and transform lives.</p>
+                <div class="hero-intro">
+                    <p>Hi, I'm Peter Mkwawa, a Pan-African strategist and development professional with over a decade of experience delivering high-impact programs, partnerships, and business growth solutions across Africa. I collaborate with governments, NGOs, and startups to solve complex challenges and scale transformative initiatives.</p>
+                </div>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary">Work With Me</a>
+                    <a href="#portfolio" class="btn btn-secondary">View My Projects</a>
+                </div>
+            </div>
+           <!-- <div class="hero-visual">
+                <div class="hero-circle">
+                    <img src="me.jpg" alt="Peter Mkwawa - Pan-African Strategy Consultant" class="hero-person-image">
+                </div> 
+            </div> -->
+            <img src="me.jpg">
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Vision-Driven./Foundation>
+                <div class="section-divider"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-bio">
+                        Peter Mkwawa is a Tanzanian strategy consultant and program designer with 10 years of experience shaping public-private partnerships, donor-funded initiatives, and tech-for-impact programs across Africa. With roots in both the corporate and development sectors, Peter brings a hybrid lens to designing and scaling ventures that drive measurable outcomes in education, health, fintech, and entrepreneurship.
+                    </p>
+                    <p class="about-bio">
+                        He has worked with organizations such as USAID, DW Akademie, GIZ, and leading African startups including Ramani and SparkCraft. Peter is known for co-creating practical, context-specific strategies that unlock growth, attract investment, and deliver lasting value to communities.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">SMEs Trained</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">$250M</span>
+                            <span class="stat-label">Loan Portfolio</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">10</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Let's Turn Your Vision Into Action</h2>
+                <p>Comprehensive solutions tailored to African markets and global partnerships</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chess-king"></i>
+                    </div>
+                    <h3>Strategic Advisory</h3>
+                    <ul>
+                        <li>Business model development</li>
+                        <li>Go-to-market strategy</li>
+                        <li>Growth & scale planning</li>
+                        <li>Policy & regulatory engagement</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Partnerships & Fundraising</h3>
+                    <ul>
+                        <li>Multi-stakeholder partnerships</li>
+                        <li>Grant writing & donor relations</li>
+                        <li>Public-private collaborations</li>
+                        <li>Fundraising strategies</li>
+                    </ul>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Program & Product Design</h3>
+                    <ul>
+                        <li>Digital product roadmaps</li>
+                        <li>M&E frameworks</li>
+                        <li>Human-centered design</li>
+                        <li>Market shaping and inclusive innovation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <div class="section-header">
+                <h2>Career Journey</h2>
+                <p>Four phases of growth and transformation across Africa</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Roots in Economic Empowerment</h3>
+                        <h4>Program Manager | DOT & The Launchpad</h4>
+                        <ul>
+                            <li>Led programs with USAID, KPMG, and DW Akademie</li>
+                            <li>Trained over 500 SMEs and 300 journalists in digital and business skills</li>
+                            <li>Built foundational expertise in youth entrepreneurship development</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Scaling Brands & Marketing Impact</h3>
+                        <h4>Digital Strategist | Smartcodes</h4>
+                        <ul>
+                            <li>Built digital strategies for major brands across banking, telecom, and FMCG</li>
+                            <li>Led 30+ high-performing campaigns</li>
+                            <li>Helped clients grow revenue, retention, and market reach</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Leading Fintech Innovation</h3>
+                        <h4>Head of Strategy & Partnerships | Ramani</h4>
+                        <ul>
+                            <li>Scaled Tanzania's largest fintech to SaaS-based inventory financing</li>
+                            <li>Launched groundbreaking $250M SME portfolio credit marketplace</li>
+                            <li>Drove 60% MoM GMV growth and co-led $32M Series A fundraising</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Driving Commercial Growth</h3>
+                        <h4>Commercial Director | ASK Private Capital & SparkCraft</h4>
+                        <ul>
+                            <li>Leading market expansion and strategic partnerships</li>
+                            <li>Advising on East Africa market entry strategies</li>
+                            <li>Accelerating fintech adoption among SMEs across the region</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="client-logos">
+                <h3>Trusted By</h3>
+                <div class="logo-grid">
+                    <div class="logo-placeholder">USAID</div>
+                    <div class="logo-placeholder">Ramani</div>
+                    <div class="logo-placeholder">SparkCraft</div>
+                    <div class="logo-placeholder">DW Akademie</div>
+                    <div class="logo-placeholder">GIZ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="color: black;">What Partners Say</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Peter was instrumental in helping us design a compelling pitch deck that led to a successful funding round. His strategic lens is unmatched."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Founder</strong>
+                        <span>Waga Motion</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Professional, knowledgeable, and dependable. Peter understands how to drive results in tough environments."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Program Lead</strong>
+                        <span>Fairaction NGO</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"My experience with Peter was quite positive. He was understanding, responsive to feedback, and consistently delivered high-quality work."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <strong>Client</strong>
+                        <span>International Development Project</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Services Section -->
+    <section class="content-services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Content & Digital Strategy Services</h2>
+                <p>Specialized offerings to amplify your digital presence and market reach</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="content-services-grid">
+                <div class="content-service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>SEO & Content Strategy</h3>
+                    <p>Full content audits and restructuring using SEMrush, SurferSEO. Well-researched, keyword-optimized articles and thought leadership content.</p>
+                </div>
+                <div class="content-service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3>Website Content & Copywriting</h3>
+                    <p>Business websites, landing pages, and conversion-focused copy that aligns with brand voice and audience needs.</p>
+                </div>
+                <div class="content-service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Generative Engine Optimization (GEO)</h3>
+                    <p>Stand out in AI search results with cutting-edge content strategy built for ChatGPT, Perplexity, and Google SGE.</p>
+                </div>
+                <div class="content-service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>Communication & Marketing Strategy</h3>
+                    <p>Building interactive communities and compelling narratives that connect audiences with brands, locally and internationally.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2>Proven Impact, From Strategy to Execution</h2>
+                <p>Recent projects and their transformative results</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div class="portfolio-header">
+                        <h3>ASK Private Capital</h3>
+                        <span class="portfolio-role">Commercial Director</span>
+                    </div>
+                    <div class="portfolio-content">
+                        <h4>Wealth Management Portfolio Growth</h4>
+                        <p><strong>Contribution:</strong> Growing and diversifying portfolio of high-net-worth individuals and institutional clients</p>
+                        <p><strong>Outcome:</strong> Positioned ASK Private Wealth as trusted partner in investment planning and legacy management</p>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-header">
+                        <h3>Ramani</h3>
+                        <span class="portfolio-role">Head of Strategy & Partnerships</span>
+                    </div>
+                    <div class="portfolio-content">
+                        <h4>Africa's First Financial Marketplace</h4>
+                        <p><strong>Contribution:</strong> Spearheaded ideation, strategy and launch in partnership with banks</p>
+                        <p><strong>Outcome:</strong> Powered over $250M loan portfolio for SMEs, co-led $32M Series A fundraising</p>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-header">
+                        <h3>VEVOR</h3>
+                        <span class="portfolio-role">eCommerce Copywriter & Video Content Lead</span>
+                    </div>
+                    <div class="portfolio-content">
+                        <h4>Digital Content Transformation</h4>
+                        <p><strong>Contribution:</strong> Led multimedia content production for hundreds of product lines</p>
+                        <p><strong>Outcome:</strong> Increased CTR and conversion rates, shaped brand voice across digital channels</p>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-header">
+                        <h3>MOSH Life</h3>
+                        <span class="portfolio-role">SEO & Performance Copywriter</span>
+                    </div>
+                    <div class="portfolio-content">
+                        <h4>Performance-Driven Funnel Experience</h4>
+                        <p><strong>Contribution:</strong> Complete funnel optimization for best-selling protein bars</p>
+                        <p><strong>Outcome:</strong> Improved organic traffic, boosted CTR and conversions from Meta/TikTok ads</p>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-header">
+                        <h3>LUX Marijani</h3>
+                        <span class="portfolio-role">Sales Copywriter & SEO Specialist</span>
+                    </div>
+                    <div class="portfolio-content">
+                        <h4>Luxury Resort Digital Presence</h4>
+                        <p><strong>Contribution:</strong> End-to-end content strategy fusing Zanzibar narrative with LUX* brand</p>
+                        <p><strong>Outcome:</strong> Data-led CRO improvements using Hotjar insights and A/B testing</p>
+                    </div>
+                </div>
+                <div class="portfolio-card">
+                    <div class="portfolio-header">
+                        <h3>Fresh Africa</h3>
+                        <span class="portfolio-role">Lead Sales Copywriter</span>
+                    </div>
+                    <div class="portfolio-content">
+                        <h4>Conversion Optimization Campaign</h4>
+                        <p><strong>Contribution:</strong> Meta campaigns, landing page optimization, email flows</p>
+                        <p><strong>Outcome:</strong> Boosted ROAS from 1.30x to 2.38x, increased CTR by 48%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="container">
+            <div class="section-header">
+                <h2>My Process & Workflow</h2>
+                <p>A proven methodology for delivering exceptional results across Africa</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Discovery & Strategy</h3>
+                        <p>We begin with clarity: audience insights, brand tone, competitive audit, and keyword research. Deep dive into your business context, market dynamics, and stakeholder landscape across African markets.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Content Creation</h3>
+                        <p>Whether ghostwriting, blog posts, product pages, or scripts—each deliverable is optimized for readability, SEO, and brand alignment. Develop context-specific strategies that resonate with local and global audiences.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Review & Delivery</h3>
+                        <p>I incorporate feedback fast and rigorously check for originality and polish with tools like Copyscape and Grammarly. Present findings through detailed reports, workshops, and collaborative refinement sessions.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3>Continuous Improvement</h3>
+                        <p>Based on performance data, we iterate content strategy to refine results and grow your organic traction. Provide ongoing support during implementation and monitor progress against KPIs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Looking to Scale Your Mission or Venture? Let's Talk.</h2>
+                <p>Ready to transform your challenges into opportunities across African markets? Let's discuss your project.</p>
+                <div class="section-divider"></div>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    <p>I'm always excited to work with ambitious organizations and individuals who are ready to make a real impact across Africa and globally. Whether you need strategic guidance, partnership development, or creative problem-solving, I'm here to help.</p>
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <span>hello@petermkwawa.com</span>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Dar es Salaam, Tanzania</span>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-globe"></i>
+                            <span>Serving clients across Africa & globally</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-section">
+                    <form class="contact-form" method="POST" action="index.php#contact">
+                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" required>
+                            <label for="name">Your Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" required>
+                            <label for="email">Email Address</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="company" name="company">
+                            <label for="company">Organization (Optional)</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" required></textarea>
+                            <label for="message">Project Details</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+            <div class="contact-cta">
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary">Book a Strategy Call</a>
+                    <a href="#" class="btn btn-secondary">Request a Quote</a>
+                    <a href="#" class="btn btn-outline">Start a Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Peter Mkwawa</h3>
+                    <p>Pan-African Strategy Consultant & Development Professional</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <p>hello@petermkwawa.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Peter Mkwawa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
