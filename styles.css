@@ -435,29 +435,31 @@ img {
 }
 
 /* Section Entry Images */
+/* Section Entry Images */
 .section-entry-image {
   width: 100%;
-  height: clamp(150px, 30vw, 300px);
+  max-width: 1280px;
+  height: 300px;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   border-radius: 15px;
-  margin-bottom: 2rem;
+  margin: 0 auto 2rem; /* Center image horizontally and add spacing below */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
 }
 
+/* Specific Image Backgrounds */
 .about-entry-image {
-  background: url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ramani.jpg-RT0MyVNBlZolHzWPZYOdgpHz84Cy04.jpeg")
-    center / cover no-repeat;
+  background-image: url("ramani.jpg");
 }
 
 .services-entry-image {
-  background: url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/two.jpg-DaxSMKrOLcVEMkMc23o6SWtMU0T01V.jpeg")
-    center / cover no-repeat;
+  background-image: url("two.jpg");
 }
 
 .portfolio-entry-image {
-  background: url("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/three.jpg-w0bmh7VnEIazrZjBrNe8s51CUHl65e.jpeg")
-    center / cover no-repeat;
+  background-image: url("four.jpg");
 }
 
 /* Section Styling */
@@ -964,6 +966,7 @@ section {
   margin-right: 1rem;
   width: 20px;
   flex-shrink: 0;
+  font-size: 1.2rem;
 }
 
 .social-links {
@@ -983,12 +986,17 @@ section {
   color: white;
   transition: all 0.3s ease;
   text-decoration: none;
+  font-size: 1.2rem;
 }
 
 .social-links a:hover {
   background: white;
   color: #4c68d7;
   transform: translateY(-3px);
+}
+
+.social-links a i {
+  font-size: 1.2rem;
 }
 
 .cta-buttons {
@@ -1014,6 +1022,10 @@ section {
 .cta-buttons .btn-secondary {
   border-color: white;
   color: white;
+}
+
+.cta-buttons .btn i {
+  font-size: 1.1rem;
 }
 
 /* Footer */
@@ -1060,6 +1072,7 @@ section {
   height: 40px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
+  font-size: 1rem;
 }
 
 /* Mobile Navigation */

@@ -178,7 +178,6 @@ const utils = {
   debounce: (func, wait, immediate) => {
     let timeout
     return function executedFunction() {
-      
       const args = arguments
       const later = () => {
         timeout = null
