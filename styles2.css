@@ -456,17 +456,12 @@ img {
 
 .services-entry-image {
   background-image: url("six.jpg");
-  background-size: cover;
-  background-position: top;
-  height: fit-content;
-  background-repeat: no-repeat;
+ 
 }
 
 .portfolio-entry-image {
   background-image: url("two.jpg");
-  background-position: top;
-  background-size: cover;
-  height:max-content;
+
 }
 
 /* Section Styling */
@@ -708,36 +703,292 @@ section {
   font-weight: bold;
 }
 
+/* =================================
+   ANIMATED LOGO CAROUSEL
+   ================================= */
+
 .client-logos {
-  text-align: center;
-  margin-top: 4rem;
+    text-align: center;
+    margin: 3rem 0;
+    overflow: hidden;
+    padding: 2rem 0;
 }
 
 .client-logos h3 {
-  color: #4c68d7;
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
+/* Logo grid container with infinite scroll */
 .logo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: clamp(1rem, 3vw, 2rem);
-  margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        white 20%,
+        white 80%,
+        transparent
+    );
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent,
+        white 20%,
+        white 80%,
+        transparent
+    );
 }
 
+/* Animated scroll container */
+.logo-scroll {
+    display: flex;
+    align-items: center;
+    animation: scroll-logos 20s linear infinite;
+    gap: 3rem;
+    white-space: nowrap;
+}
+
+/* Individual logo styling */
 .logo-placeholder {
-  padding: clamp(1rem, 3vw, 1.5rem);
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  font-weight: 600;
-  color: #4a5568;
-  transition: transform 0.3s ease;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
+    flex: 0 0 auto;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #495057;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .logo-placeholder:hover {
-  transform: scale(1.05);
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #4c68d7 0%, #6b46c1 100%);
+    color: white;
+    border-color: #4c68d7;
+    box-shadow: 0 4px 15px rgba(76, 104, 215, 0.3);
+}
+
+/* Keyframe animation for continuous scroll */
+@keyframes scroll-logos {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Alternative: Horizontal bounce effect */
+.logo-grid.bounce-effect .logo-scroll {
+    animation: bounce-logos 15s ease-in-out infinite;
+}
+
+@keyframes bounce-logos {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-30%);
+    }
+}
+
+/* Alternative: Fade slide effect */
+.logo-grid.fade-slide .logo-scroll {
+    animation: fade-slide-logos 18s ease-in-out infinite;
+}
+
+@keyframes fade-slide-logos {
+    0%, 20%, 80%, 100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    40%, 60% {
+        opacity: 0.7;
+        transform: translateX(-50%);
+    }
+}
+
+/* =================================
+   RESPONSIVE ADJUSTMENTS
+   ================================= */
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .logo-scroll {
+        gap: 4rem;
+    }
+    
+    .logo-placeholder {
+        min-width: 140px;
+        padding: 1.2rem 2.5rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .logo-scroll {
+        gap: 2.5rem;
+        animation-duration: 25s;
+    }
+    
+    .logo-placeholder {
+        min-width: 110px;
+        padding: 0.9rem 1.8rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .client-logos {
+        margin: 2rem 0;
+        padding: 1.5rem 0;
+    }
+    
+    .client-logos h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .logo-scroll {
+        gap: 1.5rem;
+        animation-duration: 30s;
+    }
+    
+    .logo-placeholder {
+        min-width: 90px;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
+        border-radius: 8px;
+    }
+}
+
+/* Very small mobile */
+@media (max-width: 480px) {
+    .logo-scroll {
+        gap: 1rem;
+    }
+    
+    .logo-placeholder {
+        min-width: 80px;
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* =================================
+   ACCESSIBILITY & PERFORMANCE
+   ================================= */
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .logo-scroll {
+        animation: none;
+    }
+    
+    .logo-grid {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .logo-grid .logo-placeholder {
+        position: static;
+    }
+}
+
+/* Pause animation on hover */
+.logo-grid:hover .logo-scroll {
+    animation-play-state: paused;
+}
+
+/* Focus states for accessibility */
+.logo-placeholder:focus {
+    outline: 3px solid #4c68d7;
+    outline-offset: 2px;
+}
+
+/* =================================
+   ALTERNATIVE EFFECTS (Optional)
+   ================================= */
+
+/* Floating effect for individual logos */
+.logo-grid.floating-effect .logo-placeholder {
+    animation: float 3s ease-in-out infinite;
+}
+
+.logo-grid.floating-effect .logo-placeholder:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.logo-grid.floating-effect .logo-placeholder:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.logo-grid.floating-effect .logo-placeholder:nth-child(4) {
+    animation-delay: 1.5s;
+}
+
+.logo-grid.floating-effect .logo-placeholder:nth-child(5) {
+    animation-delay: 2s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Pulse effect */
+.logo-grid.pulse-effect .logo-placeholder {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Gradient background variant */
+.logo-grid.gradient-bg {
+    background: linear-gradient(90deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+    border-radius: 15px;
+    padding: 2rem 0;
+    margin: 1rem 0;
+}
+
+/* Dark theme variant */
+.logo-grid.dark-theme .logo-placeholder {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    border-color: #4a5568;
+    color: #e2e8f0;
+}
+
+.logo-grid.dark-theme .logo-placeholder:hover {
+    background: linear-gradient(135deg, #4c68d7 0%, #6b46c1 100%);
+    border-color: #4c68d7;
+    color: white;
 }
 
 /* Testimonials Section */
