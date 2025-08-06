@@ -466,6 +466,7 @@ img {
   background-image: url("two.jpg");
   background-position: top;
   background-size: cover;
+  height:max-content;
 }
 
 /* Section Styling */
