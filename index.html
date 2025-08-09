@@ -710,69 +710,71 @@
         }
 
         /* Client Logos */
-        .client-logos {
-            text-align: center;
-            margin: 3rem 0;
-            overflow: hidden;
-            padding: 2rem 0;
-        }
+.client-logos {
+    text-align: center;
+    margin: 3rem 0;
+    overflow: hidden;
+    padding: 2rem 0;
+}
 
-        .client-logos h3 {
-            margin-bottom: 2rem;
-            color: #1a1a1a;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
+.client-logos h3 {
+    margin-bottom: 2rem;
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
 
-        .logo-grid {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
-        }
+.logo-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+}
 
-        .logo-scroll {
-            display: flex;
-            align-items: center;
-            animation: scroll-logos 20s linear infinite;
-            gap: 3rem;
-            white-space: nowrap;
-        }
+.logo-scroll {
+    display: flex;
+    align-items: center;
+    animation: scroll-logos 20s linear infinite;
+    gap: 3rem;
+    white-space: nowrap;
+}
 
-        .logo-placeholder {
-            flex: 0 0 auto;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 2px solid #dee2e6;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            color: #495057;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            min-width: 120px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+.logo-placeholder {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    min-width: 120px;
+    max-width: 160px;
+    height: 80px;
+}
 
-        .logo-placeholder:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, #4c68d7 0%, #6b46c1 100%);
-            color: white;
-            border-color: #4c68d7;
-            box-shadow: 0 4px 15px rgba(76, 104, 215, 0.3);
-        }
+.logo-placeholder img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
 
-        @keyframes scroll-logos {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
+.logo-placeholder:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+@keyframes scroll-logos {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
 
         /* Testimonials Section */
         .testimonials {
@@ -1492,18 +1494,39 @@
                     </div>
                 </div>
             </div>
-            <div class="client-logos">
-                <h3>Trusted By</h3>
-                <div class="logo-grid">
-                    <div class="logo-scroll">
-                        <div class="logo-placeholder">USAID</div>
-                        <div class="logo-placeholder">Ramani</div>
-                        <div class="logo-placeholder">SparkCraft</div>
-                        <div class="logo-placeholder">DW Akademie</div>
-                        <div class="logo-placeholder">GIZ</div>
-                    </div>
-                </div>
+       <div class="client-logos">
+                     <h3>Trusted By</h3>
+                  <div class="logo-grid">
+        <div class="logo-scroll">
+            <div class="logo-placeholder">
+                <img src="logo/l1.webp" alt="Smart Africa Group Logo">
             </div>
+            <div class="logo-placeholder">
+                <img src="logo/l2.webp" alt="Digital Opportunity Trust Logo">
+            </div>
+            <div class="logo-placeholder">
+                <img src="logo/l3.webp" alt="IceaLion Logo">
+            </div>
+            <div class="logo-placeholder">
+                <img src="logo/l4.webp" alt="Make A Difference Now - NGO Logo">
+            </div>
+            <div class="logo-placeholder">
+                <img src="logo/l5.webp" alt="Fairaction - NGO Logo">
+            </div>
+            <div class="logo-placeholder">
+                <img src="logo/l6.webp" alt="ASK Sports Logo">
+            </div>
+            <div class="logo-placeholder">
+                <img src="logo/l7.png" alt="Terraprisma Logo">
+            </div>
+            <div class="logo-placeholder">
+                <img src="logo/l8.webp" alt="Alifeplus Logo">
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
         </div>
     </section>
 
@@ -1703,12 +1726,10 @@
                         </div>
                     </div>
                     <div class="social-links">
-                        <a href="https://linkedin.com/in/petermkwawa" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+                        <a href="https://www.linkedin.com/in/peter-mkwawa/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="https://twitter.com/petermkwawa" target="_blank" rel="noopener noreferrer" aria-label="Twitter Profile">
-                            <i class="fab fa-twitter"></i>
-                        </a>
+                       
                     </div>
                 </div>
                 <div class="cta-buttons">
@@ -1742,7 +1763,7 @@
                 <div class="footer-section">
                     <h4>Connect</h4>
                     <div class="social-links">
-                        <a href="https://linkedin.com/in/petermkwawa" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+                        <a href="https://www.linkedin.com/in/peter-mkwawa/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                     </div>
