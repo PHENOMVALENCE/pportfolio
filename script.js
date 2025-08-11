@@ -230,3 +230,5 @@ const initializeFocusTrap = () => {
 };
 
 hamburger.addEventListener('click', initializeFocusTrap);
+
+
